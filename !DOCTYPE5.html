@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Club Webradio L.F.I.T</title>
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="https://i.ibb.co/MkG7tBTd/logo-club-removebg-preview.png" />
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #fff8f0;
+    color: #663300;
+    margin: 0; padding-bottom: 90px;
+    transition: background 0.3s, color 0.3s;
+  }
+  body.night {
+    background: #1e1e2f;
+    color: #e0c97f;
+  }
+  header {
+    background: #ff8c42;
+    color: white;
+    padding: 1em;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 25;
+    box-shadow: 0 3px 6px rgba(255,140,66,0.5);
+  }
+  body.night header {
+    background: #ff9c1a;
+    color: #222;
+  }
+  #logo {
+    max-height: 60px;
+    margin-bottom: 0.5em;
+  }
+  #loginSection, #app {
+    max-width: 900px;
+    margin: 1em auto;
+    padding: 1em 1.5em;
+    background: #fff3e0;
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(255,140,66,0.3);
+    transition: background 0.3s, color 0.3s;
+  }
+  body.night #loginSection, body.night #app {
+    background: #2c2c44;
+    color: #d4b46e;
+  }
+  #presentation {
+    font-size: 1.1em;
+    margin-bottom: 1em;
+    line-height: 1.4;
+    color: #5a3e1b;
+    background: #ffefdb;
+    padding: 1em;
+    border-radius: 8px;
+    border: 1px solid #ffb871;
+    transition: background 0.3s, color 0.3s;
+  }
+  body.night #presentation {
+    background: #3b3b55;
+    color: #e0c97f;
+    border-color: #e0c97f;
+  }
+  #playlists {
+    margin-bottom: 1em;
+    position: sticky;
+    top: 230px;
+    background: #fff3e0;
+    padding: 0.5em 0;
+    z-index: 15;
+    box-shadow: 0 2px 4px rgba(255,140,66,0.3);
+    transition: background 0.3s, color 0.3s;
+  }
+  body.night #playlists {
+    background: #2c2c44;
+  }
+  #playlists button {
+    background: #ffa64d;
+    border: none;
+    color: white;
+    margin-right: 0.6em;
+    padding: 0.5em 1.2em;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease;
+    box-shadow: 0 3px 6px rgba(255,166,77,0.5);
+  }
+  #playlists button.active, #playlists button:hover {
+    background: #ff8c42;
+    box-shadow: 0 5px 12px rgba(255,140,66,0.8);
+  }
+  #loginSection input[type="email"] {
+    padding: 0.5em;
+    width: 250px;
+    font-size: 1em;
+  }
+  #loginSection button {
+    background: #ff8c42;
+    border: none;
+    padding: 0.5em 1em;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 0.5em;
+    border-radius: 5px;
+    box-shadow: 0 3px 6px rgba(255,140,66,0.6);
+  }
+  #logoutBtn {
+    background: #ff6f00;
+    border: none;
+    padding: 0.3em 0.7em;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    float: right;
+    margin-top: -40px;
+    border-radius: 5px;
+    box-shadow: 0 3px 5px rgba(255,111,0,0.6);
+  }
+  #episodesList {
+    list-style: none;
+    padding: 0;
+  }
+  #episodesList li {
+    border-bottom: 1px solid #ffd8b1;
+    padding: 1em 0;
+    display: flex;
+    gap: 1em;
+    align-items: center;
+    transition: background 0.3s;
+  }
+  body.night #episodesList li {
+    border-color: #5a4e2e;
+  }
+  #episodesList li:hover {
+    background: #ffe3bb;
+  }
+  body.night #episodesList li:hover {
+    background: #5a4e2e;
+  }
+  #episodesList img {
+    max-width: 100px;
+    max-height: 60px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+  .episode-info {
+    flex: 1;
+  }
+  .episode-title {
+    font-weight: bold;
+    font-size: 1.1em;
+    margin: 0 0 0.3em 0;
+  }
+  .episode-desc {
+    font-size: 0.95em;
+    color: #996633;
+    margin-bottom: 0.4em;
+  }
+  body.night .episode-desc {
+    color: #d4b46e;
+  }
+  .episode-date {
+    font-size: 0.9em;
+    color: #bf6f0f;
+  }
+  body.night .episode-date {
+    color: #f4e1a0;
+  }
+  .btns {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4em;
+  }
+  button.playBtn, button.downloadBtn, button.favBtn {
+    background: #ff8c42;
+    border: none;
+    color: white;
+    padding: 0.5em 0.9em;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 3px 6px rgba(255,140,66,0.6);
+    transition: background 0.3s ease;
+    width: 110px;
+    text-align: center;
+  }
+  button.playBtn:hover {
+    background: #e67300;
+  }
+  button.downloadBtn:hover {
+    background: #cc6600;
+  }
+  button.favBtn {
+    width: 130px;
+  }
+  button.favBtn.fav {
+    background: #e67300;
+    box-shadow: 0 4px 10px rgba(230,115,0,0.9);
+  }
+  button.favBtn:hover {
+    background: #b35a00;
+  }
+  #playerSection {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: #ff8c42;
+    padding: 0.8em 1em;
+    box-shadow: 0 -3px 10px rgba(255,140,66,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 30;
+    transition: background 0.3s;
+  }
+  body.night #playerSection {
+    background: #ff9c1a;
+  }
+  audio {
+    width: 100%;
+    max-width: 900px;
+    outline: none;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(255,140,66,0.8);
+  }
+  #welcomeMsg {
+    margin-bottom: 1em;
+  }
+  #highlightSection {
+    max-width: 900px;
+    margin: 1em auto;
+    background: #ffd9b3;
+    border-radius: 12px;
+    padding: 1em 1.5em;
+    box-shadow: 0 4px 12px rgba(255,140,66,0.6);
+    display: flex;
+    gap: 1em;
+    align-items: center;
+    transition: background 0.3s, color 0.3s;
+  }
+  body.night #highlightSection {
+    background: #5a4e2e;
+    color: #e0c97f;
+  }
+  #highlightSection img {
+    width: 150px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+  #highlightInfo {
+    flex: 1;
+  }
+  #highlightInfo h2 {
+    margin: 0 0 0.4em 0;
+  }
+  #highlightInfo p {
+    margin: 0 0 0.5em 0;
+  }
+  #nightModeToggle {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: #ff8c42;
+    border: none;
+    color: white;
+    padding: 0.5em 1em;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 100;
+    box-shadow: 0 3px 6px rgba(255,140,66,0.8);
+    transition: background 0.3s ease;
+  }
+  #nightModeToggle:hover {
+    background: #e67300;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <img id="logo" src="https://i.ibb.co/MkG7tBTd/logo-club-removebg-preview.png" alt="Logo Club Webradio L.F.I.T" />
+  <h1>Club Webradio L.F.I.T</h1>
+</header>
+
+<button id="nightModeToggle">Mode Nuit</button>
+
+<div id="loginSection">
+  <p>Bonjour, bienvenue sur la plateforme de publication du Club Webradio du Lycée Français International de Tokyo!<br>
+  Bonne écoute!<br><br>
+  Une question ? Envie de rejoindre le club ? Écrivez à : <a href="mailto:club_webradio@lfitokyo.org">club_webradio@lfitokyo.org</a></p>
+  <input type="email" id="emailInput" placeholder="Entrez votre email (optionnel)" />
+  <button id="loginBtn">Se connecter</button>
+  <button id="skipLoginBtn">Accès sans login</button>
+</div>
+
+<div id="app" style="display:none;">
+  <div id="welcomeMsg"></div>
+
+  <section id="highlightSection" style="display:none;">
+    <img id="highlightImage" src="" alt="À la une" />
+    <div id="highlightInfo">
+      <h2 id="highlightTitle"></h2>
+      <p id="highlightDesc"></p>
+      <button id="highlightPlayBtn" class="playBtn">▶️ Écouter</button>
+      <button id="highlightDownloadBtn" class="downloadBtn">⬇️ Télécharger</button>
+    </div>
+  </section>
+
+  <div id="playlists"></div>
+  <ul id="episodesList"></ul>
+  <button id="logoutBtn" style="display:none;">Se déconnecter</button>
+</div>
+
+<section id="playerSection">
+  <audio controls id="mainPlayer" preload="none">
+    Votre navigateur ne supporte pas la balise audio.
+  </audio>
+</section>
+
+<script>
+  const RSS_URL = "https://audioblog.arteradio.com/blog/237102/rss";
+  const PROXY_URL = `https://api.allorigins.win/get?url=${encodeURIComponent(RSS_URL)}`;
+
+  const loginSection = document.getElementById('loginSection');
+  const emailInput = document.getElementById('emailInput');
+  const loginBtn = document.getElementById('loginBtn');
+  const skipLoginBtn = document.getElementById('skipLoginBtn');
+  const app = document.getElementById('app');
+  const welcomeMsg = document.getElementById('welcomeMsg');
+  const logoutBtn = document.getElementById('logoutBtn');
+  const playlistsDiv = document.getElementById('playlists');
+  const episodesList = document.getElementById('episodesList');
+  const mainPlayer = document.getElementById('mainPlayer');
+
+  const highlightSection = document.getElementById('highlightSection');
+  const highlightImage = document.getElementById('highlightImage');
+  const highlightTitle = document.getElementById('highlightTitle');
+  const highlightDesc = document.getElementById('highlightDesc');
+  const highlightPlayBtn = document.getElementById('highlightPlayBtn');
+  const highlightDownloadBtn = document.getElementById('highlightDownloadBtn');
+
+  const nightModeToggle = document.getElementById('nightModeToggle');
+
+  let episodes = [];
+  let currentPlaylist = 'Tous';
+  let userEmail = null;
+
+  // Favoris stockés en localStorage
+  function getFavorites() {
+    const fav = localStorage.getItem('favorites');
+    return fav ? JSON.parse(fav) : [];
+  }
+  function isFavorite(link) {
+    return getFavorites().includes(link);
+  }
+  function toggleFavorite(link) {
+    let favs = getFavorites();
+    if (favs.includes(link)) {
+      favs = favs.filter(f => f !== link);
+    } else {
+      favs.push(link);
+    }
+    localStorage.setItem('favorites', JSON.stringify(favs));
+    renderPlaylists();
+    renderEpisodes();
+  }
+
+  // Extraire playlist depuis le titre entre crochets
+  function getPlaylistFromTitle(title) {
+    const match = title.match(/\[([^\]]+)\]/);
+    return match ? match[1] : 'Divers';
+  }
+
+  function renderPlaylists() {
+    const playlistsSet = new Set(['Tous', 'Favoris']);
+    episodes.forEach(ep => playlistsSet.add(getPlaylistFromTitle(ep.title)));
+    const playlists = Array.from(playlistsSet);
+    playlistsDiv.innerHTML = '';
+    playlists.forEach(pl => {
+      const btn = document.createElement('button');
+      btn.textContent = pl;
+      btn.classList.toggle('active', pl === currentPlaylist);
+      btn.onclick = () => {
+        currentPlaylist = pl;
+        renderPlaylists();
+        renderEpisodes();
+      };
+      playlistsDiv.appendChild(btn);
+    });
+  }
+
+  function filterEpisodes() {
+    if (currentPlaylist === 'Tous') return episodes;
+    if (currentPlaylist === 'Favoris') return episodes.filter(ep => isFavorite(ep.link));
+    return episodes.filter(ep => getPlaylistFromTitle(ep.title) === currentPlaylist);
+  }
+
+  function renderEpisodes() {
+    const filtered = filterEpisodes();
+    episodesList.innerHTML = '';
+    filtered.forEach(ep => {
+      const li = document.createElement('li');
+
+      // Image
+      const imgSrc = ep.image || '';
+      const img = document.createElement('img');
+      if(imgSrc) {
+        img.src = imgSrc;
+        img.alt = "Image épisode";
+      } else {
+        img.style.display = 'none';
+      }
+
+      // Infos
+      const infoDiv = document.createElement('div');
+      infoDiv.className = 'episode-info';
+
+      const title = document.createElement('div');
+      title.className = 'episode-title';
+      title.textContent = ep.title.replace(/\[[^\]]+\]/, '').trim();
+
+      const desc = document.createElement('div');
+      desc.className = 'episode-desc';
+      desc.textContent = ep.description || '';
+
+      const date = document.createElement('div');
+      date.className = 'episode-date';
+      date.textContent = new Date(ep.pubDate).toLocaleDateString('fr-FR', {
+        year: 'numeric', month: 'short', day: 'numeric'
+      });
+
+      infoDiv.appendChild(title);
+      infoDiv.appendChild(desc);
+      infoDiv.appendChild(date);
+
+      // Boutons
+      const btnsDiv = document.createElement('div');
+      btnsDiv.className = 'btns';
+
+      const playBtn = document.createElement('button');
+      playBtn.className = 'playBtn';
+      playBtn.textContent = '▶️ Écouter';
+      playBtn.onclick = () => {
+        mainPlayer.src = ep.enclosureUrl;
+        mainPlayer.play();
+      };
+
+      const downloadBtn = document.createElement('button');
+      downloadBtn.className = 'downloadBtn';
+      downloadBtn.textContent = '⬇️ Télécharger';
+      downloadBtn.onclick = () => {
+        window.open(ep.enclosureUrl, '_blank');
+      };
+
+      const favBtn = document.createElement('button');
+      favBtn.className = 'favBtn';
+      favBtn.textContent = isFavorite(ep.link) ? '★ Favori' : '☆ Ajouter';
+      if(isFavorite(ep.link)) favBtn.classList.add('fav');
+      favBtn.onclick = () => {
+        toggleFavorite(ep.link);
+      };
+
+      btnsDiv.appendChild(playBtn);
+      btnsDiv.appendChild(downloadBtn);
+      btnsDiv.appendChild(favBtn);
+
+      li.appendChild(img);
+      li.appendChild(infoDiv);
+      li.appendChild(btnsDiv);
+
+      episodesList.appendChild(li);
+    });
+  }
+
+  function loadRSS() {
+    fetch(PROXY_URL)
+      .then(resp => resp.json())
+      .then(data => {
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(data.contents, "text/xml");
+        const items = xml.querySelectorAll('item');
+        episodes = [];
+        items.forEach(item => {
+          const title = item.querySelector('title')?.textContent || '';
+          const description = item.querySelector('description')?.textContent || '';
+          const pubDate = item.querySelector('pubDate')?.textContent || '';
+          const enclosure = item.querySelector('enclosure');
+          const enclosureUrl = enclosure ? enclosure.getAttribute('url') : '';
+          let image = '';
+          const itunesImage = item.querySelector('itunes\\:image');
+          if(itunesImage) {
+            image = itunesImage.getAttribute('href');
+          } else {
+            const mediaContent = item.querySelector('media\\:content');
+            if(mediaContent) image = mediaContent.getAttribute('url');
+          }
+          const link = item.querySelector('link')?.textContent || '';
+          episodes.push({ title, description, pubDate, enclosureUrl, image, link });
+        });
+
+        // Section à la une : dernier podcast
+        if(episodes.length > 0) {
+          const lastEp = episodes[0];
+          highlightSection.style.display = 'flex';
+          highlightImage.src = lastEp.image || '';
+          highlightImage.style.display = lastEp.image ? 'block' : 'none';
+          highlightTitle.textContent = lastEp.title.replace(/\[[^\]]+\]/, '').trim();
+          highlightDesc.textContent = lastEp.description || '';
+          highlightPlayBtn.onclick = () => {
+            mainPlayer.src = lastEp.enclosureUrl;
+            mainPlayer.play();
+          };
+          highlightDownloadBtn.onclick = () => {
+            window.open(lastEp.enclosureUrl, '_blank');
+          };
+        } else {
+          highlightSection.style.display = 'none';
+        }
+
+        renderPlaylists();
+        renderEpisodes();
+      })
+      .catch(e => {
+        episodesList.innerHTML = '<li>Erreur lors du chargement du flux RSS.</li>';
+        console.error(e);
+      });
+  }
+
+  function showApp(email = null) {
+    loginSection.style.display = 'none';
+    app.style.display = 'block';
+    userEmail = email;
+    welcomeMsg.textContent = email ? `Bienvenue sur Club Webradio L.F.I.T, ${email}!` : 'Bienvenue sur Club Webradio L.F.I.T !';
+    logoutBtn.style.display = email ? 'inline-block' : 'none';
+    loadRSS();
+  }
+
+  loginBtn.onclick = () => {
+    const email = emailInput.value.trim();
+    if(email) {
+      showApp(email);
+    } else {
+      alert("Veuillez entrer un email valide ou utiliser l'accès sans login.");
+    }
+  };
+
+  skipLoginBtn.onclick = () => {
+    showApp();
+  };
+
+  logoutBtn.onclick = () => {
+    userEmail = null;
+    loginSection.style.display = 'block';
+    app.style.display = 'none';
+    emailInput.value = '';
+    mainPlayer.pause();
+    mainPlayer.src = '';
+  };
+
+  // Mode nuit toggle
+  nightModeToggle.onclick = () => {
+    document.body.classList.toggle('night');
+    nightModeToggle.textContent = document.body.classList.contains('night') ? 'Mode Jour' : 'Mode Nuit';
+  };
+
+</script>
+
+</body>
+</html>
